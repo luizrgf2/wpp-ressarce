@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@open-wa/wa-automate": "^3.2.1",
+    "@open-wa/wa-automate": "^3.6.11",
     "axios": "^0.21.1",
     "mongoose": "^5.11.15"
   }
