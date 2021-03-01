@@ -19,7 +19,7 @@ async function Stage1(client,message){
 
 
     if(estado == null){
-        await client.sendText(message.from,dates.stage0) //mandando mensagem das opçoes 1: simples nacional 2: lucro presumido
+        await client.sendText(message.from,dates.stage0) //mandando mensagem das opçoes 1: simples nacional
         await User.updateOne({userid:message.from},{state1:{nome:null,state:0}}) //atalizar estado
         
     }
@@ -36,14 +36,15 @@ async function Stage1(client,message){
             
         }
         //Lucro presumido escolha
-        else if(message.body === '2'){
+       /* else if(message.body === '2'){
             
             await User.updateOne({userid:message.from},{state1:{nome:'op2',state:1}}) // atuaçizando banco de dados lucro presumido, opçao2
             await client.sendText(message.from, dates.stage7) //redirecionar cliente para um atendente ressarce lucro presumido
             await client.sendText(message.from,dates.stage10) //pergunta a area de atuaçoa da empresa
 
             
-        }else{
+        }*/
+        else{
             client.sendText(message.from,'Digite algo válido😉!')
         }
     }
@@ -168,16 +169,16 @@ async function Stage1(client,message){
                 let text = dates.stage6.replace('XX',valores[1]).replace('ZZ',valores[0]) //substitui os textos pelos valoes(ganho mensal e a porcentagem do mercado)
 
 
-                await User.updateOne({userid:message.from},{state1:{nome:'op1',state:4}}) // atualiza o banco de dados
+                await User.deleteOne({userid:message.from}) // atualiza o banco de dados
                 await client.sendText(message.from,text) //envia a mensagem mostrando quanto tem pra receber
-                await Red.create({userid:message.from,red:'Simples nacional'}) // salva no banco de dados que esta interessado em conversar com um atendente
-                
+
 
             }else{
 
+                await User.deleteOne({userid:message.from})
 
 
-                if(message.body == '1'){//deleta o cliente da base de dados
+                /*if(message.body == '1'){//deleta o cliente da base de dados
                     await client.sendText(message.from,'Obrigado pela preferência, volte sempre que precisar!')
                     await User.deleteOne({userid:message.from})
                 }
@@ -188,7 +189,7 @@ async function Stage1(client,message){
                 else{
                     await client.sendText(message.from,'Digite algo válido😉!')
                 }
-
+                */
 
             }
             
