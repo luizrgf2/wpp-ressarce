@@ -51,7 +51,7 @@ function start(client) {
             await User.updateOne({userid:message.from},{state:3,state_out:1})
             require('./stage/state1/index')(client,message)
         }
-        else if(message.body === '2'){
+        /*else if(message.body === '2'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:2})
             require('./stage/state2/index')(client,message)
@@ -81,6 +81,8 @@ function start(client) {
             require('./stage/state6/index')(client,message)
             
         }
+
+        */
         else{
             
             await client.sendText(message.from, stado.stage2);
