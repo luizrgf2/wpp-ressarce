@@ -135,9 +135,8 @@ async function Stage1(client,message){
             }
             else if(message.body === '10'){
                 
-                await client.sendText(message.from,dates.stage8)
-                await client.sendText(message.from,dates.stage9)
-                await User.updateOne({userid:message.from},{state1:{nome:'op1',state:3,mercado:mercado}})
+                await client.sendText(message.from,dates.stage8) // mandando a mensagem informando que não ha nda para recuperar
+                await User.deleteOne({userid:message.from})
             }else{
                 
                 await client.sendText(message.from,'Digite algo válido😉!')
