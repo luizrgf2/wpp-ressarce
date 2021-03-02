@@ -45,7 +45,7 @@ async function Stage1(client,message){
             
         }*/
         else{
-            client.sendText(message.from,'Digite algo válido😉!')
+            client.sendText(message.from,'Digite o número da opção😉')
         }
     }
     else if(estado.state === 1){
@@ -139,7 +139,7 @@ async function Stage1(client,message){
                 await User.deleteOne({userid:message.from})
             }else{
                 
-                await client.sendText(message.from,'Digite algo válido😉!')
+                await client.sendText(message.from,'Digite o número da opção😉')
             }
             
         }else{
@@ -186,7 +186,7 @@ async function Stage1(client,message){
                     await Red.create({userid:message.from,red:'Escolheu a opção 10'}) // salva no banco de dados que esta interessado em conversar com um atendente
                 }
                 else{
-                    await client.sendText(message.from,'Digite algo válido😉!')
+                    await client.sendText(message.from,'Digite o número da opção😉')
                 }
                 */
 
