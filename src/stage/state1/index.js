@@ -2,6 +2,7 @@ const User = require('../../models/index')
 const dates = require('./index.json')
 const Email = require('../../models/email')
 const Red = require('../../models/redirecionamentos')
+const { isValidObjectId } = require('mongoose')
 
 var  mercado = 0
 var valor = 0
@@ -12,7 +13,7 @@ var valor = 0
 //op2 lucro presumido
 
 
-async function Stage1(client,message){
+async function Stage1(client,message,socket){
     let aux = await User.findOne({userid:message.from})
     let estado = aux.state1
 
@@ -184,6 +185,8 @@ async function Stage1(client,message){
                 else if(message.body == '2'){//redireciona o cliente para um profissional ressarce
                     await client.sendText(message.from,'Aguarde até nossos profissionais atenderem você, é bem rápido.')
                     await Red.create({userid:message.from,red:'Escolheu a opção 10'}) // salva no banco de dados que esta interessado em conversar com um atendente
+                    await User.updateOne({userid:message.from},{state1:{nome:'10',state:4}}) // atualiza o banco de dados
+                    
                 }
                 else{
                     await client.sendText(message.from,'Digite algo válido😉!')
@@ -210,18 +213,32 @@ async function Stage1(client,message){
     }
 
     else if(estado.state === 4){
-
-
-        const msgs = await User.findOne({userid:message.from}) //pegando mensagens importantes salvas no banco de dados
-
-        const msg_finais = msgs.conversas.msg
-
-        msg_finais.push('emite cupom fiscal: '+message.body) // adicionando conversa importante ao banco de dados
-
-        await User.updateOne({userid:message.from},{conversas:{msg: msg_finais},state1:{nome:'op2',state:5}}) // salvando as mensagens e o novo estado no banco de dados
-
+        if(aux.state1.nome==='op1'){// verifica se a opçao foi simples nacional
         
-        await client.sendText(message.from,dates.stage14) //perguntando se a empresa emite cumpom fiscal
+        
+                
+            const usuario = await User.findOne({userid:message.from})
+            socket.emit('message',[usuario.nome,usuario.userid,message.body])
+            
+        
+        }
+        
+
+
+        else{
+            
+            const msgs = await User.findOne({userid:message.from}) //pegando mensagens importantes salvas no banco de dados
+    
+            const msg_finais = msgs.conversas.msg
+    
+            msg_finais.push('emite cupom fiscal: '+message.body) // adicionando conversa importante ao banco de dados
+    
+            await User.updateOne({userid:message.from},{conversas:{msg: msg_finais},state1:{nome:'op2',state:5}}) // salvando as mensagens e o novo estado no banco de dados
+    
+            
+            await client.sendText(message.from,dates.stage14) //perguntando se a empresa emite cumpom fiscal
+        }
+
 
     }
     else if  (estado.state === 5){
@@ -248,8 +265,8 @@ async function Stage1(client,message){
     //rediorecionar para um atendente ressarce
     else if(estado.state === 6){
 
-
-
+        const usuario = await User.findOne({userid:message.from})
+        socket.emit('message',[usuario.nome,usuario.userid,message.body])
 
     }
     

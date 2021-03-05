@@ -2,7 +2,7 @@ const User = require('../../models/index')
 const dates = require('./index.json')
 const Red = require('../../models/redirecionamentos')
 
-async function stage2(client,message){
+async function stage2(client,message,socket){
 
     const aux_estado = await User.findOne({userid:message.from})
     const estado = aux_estado.state5
@@ -45,6 +45,15 @@ async function stage2(client,message){
             await client.sendText(message.from,'Digite algo válido😉!')
 
         }
+
+    }
+    else if(estado.state == 1){
+
+
+        
+        const usuario = await User.findOne({userid:message.from})
+        socket.emit('message',[usuario.nome,usuario.userid,message.body])
+
 
     }
 

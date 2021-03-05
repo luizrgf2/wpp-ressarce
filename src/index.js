@@ -1,12 +1,35 @@
 const wa = require('@open-wa/wa-automate');
 const User = require('./models/index')
 const stado = require('./stage/stage.json')
+const app = require('express')()
+const server = app.listen(27000,()=>console.log('conectado na porta 27000'))
+const io = require('socket.io')(server)
+
+
+
+io.on('connection',()=>{
+
+    console.log('conectado')
+
+
+})
+
 
 
 wa.create().then(client => start(client));
 
 function start(client) {
-  client.onMessage(async message => {
+  
+  
+    io.on('msg',change=>{
+
+        console.log('mensagem nova')
+
+
+    })
+  
+  
+    client.onMessage(async message => {
     
     let base = await User.findOne({userid:message.from})
     let state = 0
@@ -49,36 +72,36 @@ function start(client) {
         if(message.body === '1'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:1})
-            require('./stage/state1/index')(client,message)
+            require('./stage/state1/index')(client,message,io)
         }
         else if(message.body === '2'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:2})
-            require('./stage/state2/index')(client,message)
+            require('./stage/state2/index')(client,message,io)
         }
         else if(message.body === '3'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:3})
-            require('./stage/state3/index')(client,message)
+            require('./stage/state3/index')(client,message,io)
 
             
         }
         else if(message.body === '4'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:4})
-            require('./stage/state4/index')(client,message)
+            require('./stage/state4/index')(client,message,io)
 
         }
         else if(message.body === '5'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:5})
-            require('./stage/state5/index')(client,message)
+            require('./stage/state5/index')(client,message,io)
 
         }
         else if(message.body === '6'){
             
             await User.updateOne({userid:message.from},{state:3,state_out:6})
-            require('./stage/state6/index')(client,message)
+            require('./stage/state6/index')(client,message,io)
             
         }
         else{
@@ -94,25 +117,25 @@ function start(client) {
     else if(state === 3){
 
         if(state_out === 1){
-            require('./stage/state1/index')(client,message)
+            require('./stage/state1/index')(client,message,io)
         }
         else if(state_out === 2){
-            require('./stage/state2/index')(client,message)
+            require('./stage/state2/index')(client,message,io)
         }
         else if(state_out === 3){
-            require('./stage/state3/index')(client,message)
+            require('./stage/state3/index')(client,message,io)
 
         }
         else if(state_out === 4){
-            require('./stage/state4/index')(client,message)
+            require('./stage/state4/index')(client,message,io)
 
         }
         else if(state_out === 5){
-            require('./stage/state5/index')(client,message)
+            require('./stage/state5/index')(client,message,io)
 
         }
         else if(state_out === 6){
-            require('./stage/state6/index')(client,message)
+            require('./stage/state6/index')(client,message,io)
 
         }
 

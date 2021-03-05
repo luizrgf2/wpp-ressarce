@@ -2,7 +2,7 @@ const User = require('../../models/index')
 const dates = require('./index.json')
 const Red = require('../../models/redirecionamentos')
 
-async function stage2(client,message){
+async function stage2(client,message,socket){
 
     const aux_estado = await User.findOne({userid:message.from})
     const estado = aux_estado.state2
@@ -63,6 +63,14 @@ async function stage2(client,message){
         await client.sendText(message.from,dates.stage5) //aguardar um funcionario ressarce para atender
         await Red.create({userid:message.from,red:'Análise de empresa',conversas:msg}) // salva no banco de dados que esta interessado em conversar com um atendente
         
+    }
+    else if(estado.state === 5){
+
+
+        const usuario = await User.findOne({userid:message.from})
+        socket.emit('message',[usuario.nome,usuario.userid,message.body])
+
+
     }
 
 
