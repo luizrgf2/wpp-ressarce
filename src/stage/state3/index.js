@@ -28,7 +28,8 @@ async function stage2(client,message,socket){
 
             await User.updateOne({userid:message.from},{state4:{nome:'op1',state:1}}) // atualizando estado no banco de dados pra poder seguir
             await client.sendText(message.from,dates.stage3) //aguardar um atendente
-            await Red.create({userid:message.from,red:'Estado do procedimento'}) // salva no banco de dados que esta interessado em conversar com um atendente
+            let user = await User.findOne({userid:message.from})
+            await Red.create({userid:message.from,red:'Estado do procedimento',conversas:[],nome:user.nome}) // salva no banco de dados que esta interessado em conversar com um atendente
 
 
         }
