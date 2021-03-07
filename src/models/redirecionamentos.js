@@ -12,6 +12,10 @@ const redScheme = mongoose.Schema({
     userid:{
         type:String,
         require:true
+    },
+    nome:{
+        type:String,
+        require:true
     }
 })
 

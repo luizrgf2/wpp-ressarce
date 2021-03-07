@@ -2,7 +2,6 @@ const User = require('../../models/index')
 const dates = require('./index.json')
 const Email = require('../../models/email')
 const Red = require('../../models/redirecionamentos')
-const { isValidObjectId } = require('mongoose')
 
 var  mercado = 0
 var valor = 0
@@ -171,7 +170,8 @@ async function Stage1(client,message,socket){
 
                 await User.updateOne({userid:message.from},{state1:{nome:'op1',state:4}}) // atualiza o banco de dados
                 await client.sendText(message.from,text) //envia a mensagem mostrando quanto tem pra receber
-                await Red.create({userid:message.from,red:'Simples nacional'}) // salva no banco de dados que esta interessado em conversar com um atendente
+                let user = await User.findOne({userid:message.from})
+                await Red.create({userid:message.from,red:'Simples nacional',nome:user.nome,conversas:[]}) // salva no banco de dados que esta interessado em conversar com um atendente
                 
 
             }else{
@@ -184,7 +184,9 @@ async function Stage1(client,message,socket){
                 }
                 else if(message.body == '2'){//redireciona o cliente para um profissional ressarce
                     await client.sendText(message.from,'Aguarde até nossos profissionais atenderem você, é bem rápido.')
-                    await Red.create({userid:message.from,red:'Escolheu a opção 10'}) // salva no banco de dados que esta interessado em conversar com um atendente
+                    let user = await User.findOne({userid:message.from})
+
+                    await Red.create({userid:message.from,red:'Escolheu a opção 10',nome:user.nome,conversas:[]}) // salva no banco de dados que esta interessado em conversar com um atendente
                     await User.updateOne({userid:message.from},{state1:{nome:'10',state:4}}) // atualiza o banco de dados
                     
                 }
@@ -256,8 +258,8 @@ async function Stage1(client,message,socket){
 
         
         await client.sendText(message.from,'Perfeito, aguarde um atendente Ressarce... é bem rápido!') //perguntando quantos funcionarios a empresa tem
-
-        await Red.create({userid:message.from,red:'Lucro Real ou Presumido',conversas:msg_finais}) // salva no banco de dados que esta interessado em conversar com um atendente
+        let user = await User.findOne({userid:message.from})
+        await Red.create({userid:message.from,red:'Lucro Real ou Presumido',conversas:msg_finais,nome:user.nome}) // salva no banco de dados que esta interessado em conversar com um atendente
 
 
 
