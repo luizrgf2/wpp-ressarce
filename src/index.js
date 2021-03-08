@@ -1,18 +1,7 @@
 const wa = require('@open-wa/wa-automate');
 const User = require('./models/index')
 const stado = require('./stage/stage.json')
-const app = require('express')()
-const server = app.listen(27000,()=>console.log('conectado na porta 27000'))
-const io = require('socket.io')(server)
-
-
-
-io.on('connection',()=>{
-
-    console.log('conectado')
-
-
-})
+const io = require('socket.io-client')('http://localhost:3000') // conecta um socket clietside a api, node api whatsapp
 
 
 
