@@ -69,8 +69,7 @@ async function stage2(client,message,socket){
 
 
         const usuario = await User.findOne({userid:message.from})
-        socket.emit('message',[usuario.nome,usuario.userid,message.body])
-
+        socket.emit('message',{userid:usuario.userid,message:message.body})
 
     }
 
