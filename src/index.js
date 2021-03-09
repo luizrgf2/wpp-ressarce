@@ -16,6 +16,13 @@ function start(client) {
 
 
     })
+
+    io.on('wpp',msgs=>{
+        const {userid,msg} = msgs
+        client.sendText(userid,msg)
+
+
+    })
   
   
     client.onMessage(async message => {
