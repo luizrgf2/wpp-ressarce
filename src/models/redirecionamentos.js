@@ -16,6 +16,10 @@ const redScheme = mongoose.Schema({
     nome:{
         type:String,
         require:true
+    },
+    area:{
+        type:String,
+        require:true
     }
 })
 
