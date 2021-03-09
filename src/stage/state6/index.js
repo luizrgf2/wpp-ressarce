@@ -22,7 +22,7 @@ async function stage2(client,message,socket){
             await User.updateOne({userid:message.from},{state6:{nome:'op1',state:1}}) // 
             await client.sendText(message.from,dates.stage1) // aguarde um atendente ressarce
             let user = await User.findOne({userid:message.from})
-            await Red.create({userid:message.from,red:'Falar com suporte cliente',conversas:[],nome:user.nome}) // salva no banco de dados que esta interessado em conversar com um atendente
+            await Red.create({userid:message.from,red:'Falar com suporte cliente',conversas:[],nome:user.nome,area:'Suporte'}) // salva no banco de dados que esta interessado em conversar com um atendente
             
         }
         //redirecionar para um atendente ressarce
@@ -31,7 +31,7 @@ async function stage2(client,message,socket){
             await User.updateOne({userid:message.from},{state6:{nome:'op2',state:1}}) // 
             await client.sendText(message.from,dates.stage1) // aguarde um atendente ressarce
             let user = await User.findOne({userid:message.from})
-            await Red.create({userid:message.from,red:'Falar com suporte franqueado',conversas:[],nome:user.nome}) // salva no banco de dados que esta interessado em conversar com um atendente
+            await Red.create({userid:message.from,red:'Falar com suporte franqueado',conversas:[],nome:user.nome,area:'Franqueado'}) // salva no banco de dados que esta interessado em conversar com um atendente
             
 
         }
