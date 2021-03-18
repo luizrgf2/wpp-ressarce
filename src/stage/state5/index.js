@@ -18,20 +18,20 @@ async function stage2(client,message,socket){
     else if(estado.state == 0){
 
         //redirecionar para um atendente
-        if(message.body == '1'){
+        if(message.body == '1'){ //cliente
             await User.updateOne({userid:message.from},{state5:{nome:'op1',state:1}}) // 
             await client.sendText(message.from,dates.stage1) // aguarde um atendente ressarce
             let user = await User.findOne({userid:message.from})
-            await Red.create({userid:message.from,red:'Falar com jurídico cliente',conversas:[],nome:user.nome,area:'Suporte'}) // salva no banco de dados que esta interessado em conversar com um atendente
+            await Red.create({userid:message.from,red:'Falar com jurídico cliente',conversas:['opção 5, cliente.'],nome:user.nome,area:'Suporte'}) // salva no banco de dados que esta interessado em conversar com um atendente
             
         }
         //redirecionar para um atendente ressarce
-        else if(message.body == '2'){
+        else if(message.body == '2'){ //franqueado
 
             await User.updateOne({userid:message.from},{state5:{nome:'op2',state:1}}) // 
             await client.sendText(message.from,dates.stage1) // aguarde um atendente ressarce
             let user = await User.findOne({userid:message.from})
-            await Red.create({userid:message.from,red:'Falar com jurídico franqueado',conversas:[],nome:user.nome,area:'Franqueado'}) // salva no banco de dados que esta interessado em conversar com um atendente
+            await Red.create({userid:message.from,red:'Falar com jurídico franqueado',conversas:['opção 5, franqueado.'],nome:user.nome,area:'Franqueado'}) // salva no banco de dados que esta interessado em conversar com um atendente
             
             
 
