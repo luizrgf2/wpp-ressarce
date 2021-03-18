@@ -8,7 +8,8 @@ const EmailScheme = mongoose.Schema({
     email:{
         type:String,
         require:true,
-        lowercase:true
+        lowercase:true,
+        unique:true
     },
     create:{
         type:Date,
